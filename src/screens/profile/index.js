@@ -11,10 +11,14 @@ import {
   View,
   SafeAreaView,
   Button,
+  ToastAndroid,
 } from "react-native";
 import { useState, useEffect } from "react";
-import commonStyle from "../../styles/commonStyle";
+
 import axios from "axios";
+
+import GlobalStyle from "../../styles/GlobalStyle";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const style = StyleSheet.create({
   flexCenter: {
@@ -52,25 +56,36 @@ const style = StyleSheet.create({
   },
 });
 
-const ProfileScreen = () => {
-  const [number, onChangeNumber] = React.useState("");
-  const [text, onChangeText] = React.useState("");
+const ProfileScreen = ({ route }) => {
+  const { idu } = route.params;
+  console.log(idu);
 
   const [dataProfile, setDataProfile] = useState([]);
-  // const { id } = useParams();
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+
   useEffect(() => {
+    // e.preventDefault();
     axios
-      .get(`http://localhost:5000/api/v1/users/${id}`)
-      .then((res) => setDataProfile(res.data.data))
+      .get(`http://192.168.100.152:5000/api/v1/auth/users/${idu}`)
+      .then((res) => {
+        // console.log(dataProfile.profile_image);
+        // console.log(JSON.stringify(res.data.data));
+        setDataProfile(res.data.data);
+      })
       .catch((err) => console.log(err.message));
   });
 
   //patch profile
-  const [username, setUsername] = useState("");
-  const [Email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [profile_image, setProfile_Image] = useState("");
+  //   const [username, setUsername] = useState("");
+  //   const [Email, setEmail] = useState("");
+  //   const [phone, setPhone] = useState("");
+  //   const [address, setAddress] = useState("");
+  //   const [profile_image, setProfile_Image] = useState("");
 
   const onImageUpload = (e) => {
     const file = e.target.files[0];
@@ -83,36 +98,46 @@ const ProfileScreen = () => {
     // console.log(phone);
     // console.log(password);
     // console.log(profile_image);
-    event.preventDefault();
-    const data = new FormData(event.target);
-    data.append("username", username);
-    data.append("Email", Email);
-    data.append("phone", phone);
-    data.append("password", password);
-    data.append("profile_image", profile_image);
+    // event.preventDefault();
+    // const data = new FormData(event.target);
+    // data.append("username", username);
+    // data.append("Email", Email);
+    // data.append("phone", phone);
+    // data.append("address", address);
+    // data.append("profile_image", profile_image);
     axios
-      .patch(`http://localhost:5000/api/v1/users/${id}`, data, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      })
+      .patch(
+        `http:///192.168.100.152:5000/api/v1/auth/users/${idu}`,
+        userData,
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
-        alert(res.data.message);
+        ToastAndroid.show("Edit Success", ToastAndroid.SHORT);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => ToastAndroid.show("Edit Failed", ToastAndroid.SHORT));
   };
 
   return (
-    <ScrollView style={commonStyle.bg}>
-      <Image
-        source={require("../../images/profilefoto.png")}
-        style={{
-          width: "100%",
-          marginTop: 20,
-          marginBottom: 20,
-          resizeMode: "contain",
-        }}
-      />
+    <ScrollView style={GlobalStyle.bg}>
+      <View style={[GlobalStyle.flex, GlobalStyle.justifyCenter]}>
+        <Image
+          source={{
+            uri: `http://192.168.100.152:5000/uploads/images/${dataProfile.profile_image}`,
+          }}
+          style={{
+            height: 150,
+            width: 150,
+            marginTop: 20,
+            marginBottom: 20,
+            resizeMode: "cover",
+            borderRadius: 100,
+          }}
+        />
+      </View>
       <Pressable>
         <Image
           source={require("../../images/editbtn.png")}
@@ -126,56 +151,54 @@ const ProfileScreen = () => {
         />
       </Pressable>
       <View style={[style.flexCenter]}>
-        <Text style={[commonStyle.brown, style.title]}>Zulaikha</Text>
-        <Text style={[commonStyle.brown, style.subTitle]}>
-          zulaikha17@gmail.com
+        <Text style={[GlobalStyle.brown, style.title]}>
+          {dataProfile.username}
         </Text>
-        <Text style={[commonStyle.brown, style.subTitle]}>+62 81348287878</Text>
-        <Text style={[commonStyle.brown, style.subTitle]}>
-          Iskandar Street Block A Number 102
+        <Text style={[GlobalStyle.brown, style.subTitle]}>
+          {dataProfile.email}
+        </Text>
+        <Text style={[GlobalStyle.brown, style.subTitle]}>
+          {dataProfile.phone}
+        </Text>
+        <Text style={[GlobalStyle.brown, style.subTitle]}>
+          {dataProfile.address}
         </Text>
       </View>
-      <View style={commonStyle.mt2per}>
+      <View style={GlobalStyle.mt2per}>
         <SafeAreaView>
-          <Text style={[commonStyle.grey, style.subTitle]}>Name</Text>
+          <Text style={[GlobalStyle.grey, style.subTitle]}>Name</Text>
           <TextInput
             style={style.input}
-            onChangeText={onChangeText}
+            onChangeText={(e) => setUserData({ ...userData, username: e })}
             placeholder="Fill Your Name"
-            value={text}
+            // value={username}
           />
-          <Text style={[commonStyle.grey, style.subTitle]}>Email</Text>
+          <Text style={[GlobalStyle.grey, style.subTitle]}>Email</Text>
           <TextInput
             style={style.input}
-            onChangeText={onChangeText}
+            onChangeText={(e) => setUserData({ ...userData, email: e })}
             placeholder="Fill Your Email"
-            value={text}
+            // value={text}
           />
-          <Text style={[commonStyle.grey, style.subTitle]}>Phone Number</Text>
+          <Text style={[GlobalStyle.grey, style.subTitle]}>Phone Number</Text>
           <TextInput
             style={style.input}
-            onChangeText={onChangeNumber}
-            value={number}
+            onChangeText={(e) => setUserData({ ...userData, phone: e })}
+            // value={number}
             placeholder="Fill Your Phone"
             keyboardType="numeric"
           />
-          <Text style={[commonStyle.grey, style.subTitle]}>Date of Birth</Text>
-          <TextInput
-            style={style.input}
-            onChangeText={onChangeText}
-            placeholder="DD/MM/YY"
-            value={text}
-          />
-          <Text style={[commonStyle.grey, style.subTitle]}>
+          <Text style={[GlobalStyle.grey, style.subTitle]}>
             Delivery Address
           </Text>
           <TextInput
             style={style.input}
-            onChangeText={onChangeText}
+            onChangeText={(e) => setUserData({ ...userData, address: e })}
             placeholder="Fill Your Delivery Location"
-            value={text}
+            // value={text}
           />
           <Pressable
+            onPress={handleUpdate}
             style={{
               backgroundColor: "#6A4029",
               padding: 22,

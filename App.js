@@ -7,7 +7,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 //screens
 import Home from "./src/screens/home";
-import Detailproduct from "./src/screens/detailProduct";
+import ProductDetail from "./src/screens/detailProduct";
 import AddProduct from "./src/screens/addproduct";
 import Start from "./src/screens/Auth/start";
 import Welcome from "./src/screens/Auth/welcome";
@@ -24,7 +24,7 @@ const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
 
-export function Root() {
+export function Root({ route }) {
   return (
     <Drawer.Navigator>
       <Drawer.Screen
@@ -39,6 +39,11 @@ export function Root() {
         }}
       />
       {/* <Drawer.Screen name="Order" component={Order} /> */}
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileScreen}
+        initialParams={route.params}
+      />
       <Drawer.Screen name="Logout" component={Logout} />
     </Drawer.Navigator>
   );
@@ -48,7 +53,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Start"
           component={Start}
           options={{ headerShown: false }}
@@ -66,25 +71,25 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="DetailProduct"
-          component={Detailproduct}
-          options={{ title: "Detail Product" }}
+          name="ProductDetail"
+          component={ProductDetail}
+          options={{ title: "Product Detail" }}
         />
         <Stack.Screen
           name="Checkout"
           component={CheckoutScreen}
           options={{ title: "Checkout" }}
-        /> */}
+        />
         <Stack.Screen
           name="Profile"
           component={ProfileScreen}
-          options={{ title: "profile" }}
+          options={{ title: "Profile" }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Payment"
           component={Payment}
           options={{ title: "Payment" }}
-        /> */}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

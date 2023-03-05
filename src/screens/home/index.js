@@ -1,7 +1,14 @@
 //default import
 import { StatusBar } from "expo-status-bar";
 import { FlatList } from "react-native";
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Image,
+  ScrollView,
+} from "react-native";
 import { createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import axios from "axios";
@@ -21,7 +28,7 @@ import Style from "./style";
 
 // const Drawer = createDrawerNavigator();
 
-export default function Home({ navigation }) {
+export default function Home({ route, navigation }) {
   const [dataProduct, setDataProduct] = useState([]);
   useEffect(() => {
     axios
@@ -33,8 +40,9 @@ export default function Home({ navigation }) {
         console.log(err.message);
       });
   });
+
   return (
-    <View style={GlobalStyle.py30}>
+    <ScrollView style={GlobalStyle.py30}>
       <View
         style={[
           GlobalStyle.flex,
@@ -90,7 +98,7 @@ export default function Home({ navigation }) {
               {/* <FlatList /> */}
               <Pressable
                 onPress={() => {
-                  navigation.navigate("productDetail");
+                  navigation.navigate("ProductDetail", { id: item.id });
                 }}
               >
                 <Image
@@ -101,13 +109,45 @@ export default function Home({ navigation }) {
                 />
               </Pressable>
               <Text style={Style.productName}>{item.title}</Text>
-              <Text style={Style.productPrice}>{item.price}</Text>
+              <Text style={Style.productPrice}>Rp. {item.price}</Text>
+            </View>
+          );
+        }}
+      />
+      <View>
+        <Text
+          style={[GlobalStyle.py10, GlobalStyle.primaryColor, GlobalStyle.px50]}
+        >
+          Promo For You
+        </Text>
+      </View>
+      <FlatList
+        horizontal
+        data={dataProduct}
+        renderItem={({ item }) => {
+          return (
+            <View style={[GlobalStyle.my50, GlobalStyle.mr10, Style.card]}>
+              {/* <FlatList /> */}
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("ProductDetail", { id: item.id });
+                }}
+              >
+                <Image
+                  source={{
+                    uri: `http://192.168.100.152:5000/uploads/images/${item.images[0].filename}`,
+                  }}
+                  style={Style.imageProduct}
+                />
+              </Pressable>
+              <Text style={Style.productName}>{item.title}</Text>
+              <Text style={Style.productPrice}>Rp. {item.price}</Text>
             </View>
           );
         }}
       />
       {/* <Logout /> */}
-    </View>
+    </ScrollView>
   );
 }
 

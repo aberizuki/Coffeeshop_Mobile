@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Pressable,
   ScrollView,
@@ -80,7 +80,16 @@ const style = StyleSheet.create({
   },
 });
 
-export default function Payment() {
+export default function Payment({ route, navigation }) {
+  const { id } = route.params;
+  const [productDetail, setProductDetail] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`http://192.168.100.152:5000/api/v1/product/${id}`)
+      .then((res) => setProductDetail(res.data.data))
+      .catch((err) => console.log(err.message));
+  });
+
   return (
     <View style={commonStyle.bg}>
       <ScrollView>
@@ -115,18 +124,19 @@ export default function Payment() {
         <View style={[style.hr]} />
         <View style={[style.contentRow, style.sectionContent]}>
           <Text style={[commonStyle.black, commonStyle.bold, commonStyle.M]}>
-            1 Hazelnut Latte
+            {productDetail.title}
           </Text>
           <Text
             style={[commonStyle.black, commonStyle.semiBold, commonStyle.M]}
           >
-            IDR 20.000
+            IDR {productDetail.price}
           </Text>
         </View>
         <Text style={[commonStyle.black, commonStyle.regular, commonStyle.S]}>
           Regular
         </Text>
-        <View style={[style.contentRow, style.sectionContent]}>
+
+        {/* <View style={[style.contentRow, style.sectionContent]}>
           <Text style={[commonStyle.black, commonStyle.bold, commonStyle.M]}>
             1 Pinky Promise
           </Text>
@@ -151,7 +161,7 @@ export default function Payment() {
         </View>
         <Text style={[commonStyle.black, commonStyle.regular, commonStyle.S]}>
           Large
-        </Text>
+        </Text> */}
         <View style={[style.hr, style.sectionContent]} />
         <View style={[style.contentRow, style.sectionContent]}>
           <Text style={[commonStyle.black, commonStyle.bold, commonStyle.M]}>
@@ -160,7 +170,7 @@ export default function Payment() {
           <Text
             style={[commonStyle.black, commonStyle.semiBold, commonStyle.M]}
           >
-            IDR 105.000
+            IDR {productDetail.price}
           </Text>
         </View>
         <View style={[style.contentRow, style.subTitle]}>
@@ -170,9 +180,10 @@ export default function Payment() {
           <Text
             style={[commonStyle.black, commonStyle.semiBold, commonStyle.M]}
           >
-            IDR 12.000
+            IDR 0.0
           </Text>
         </View>
+
         <View
           style={[style.contentRow, style.sectionContent, commonStyle.mb10per]}
         >
@@ -180,10 +191,13 @@ export default function Payment() {
             Total
           </Text>
           <Text style={[commonStyle.black, commonStyle.bold, commonStyle.L]}>
-            IDR 117.000
+            IDR {productDetail.price}
           </Text>
         </View>
         <Pressable
+          onPress={() => {
+            navigation.navigate("Home");
+          }}
           style={{
             backgroundColor: "#6A4029",
             padding: 22,
