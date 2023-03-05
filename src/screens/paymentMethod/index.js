@@ -8,191 +8,202 @@ import {
   ToastAndroid,
   StatusBar,
   StyleSheet,
+  Button,
   View,
 } from "react-native";
 import { Text } from "../../components/commons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "react-native";
+import commonStyle from "../../styles/commonStyle";
+
+const style = StyleSheet.create({
+  flexCenter: {
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  title: {
+    marginTop: "2%",
+  },
+  subTitle: {
+    marginTop: "1%",
+  },
+  sectionTitle: {
+    marginTop: "20%",
+  },
+  sectionContent: {
+    marginTop: "10%",
+  },
+  contentRow: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  contentRowLeft: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  button: {
+    height: 40,
+    marginTop: 4,
+    marginBottom: 30,
+    borderBottomWidth: 2,
+    padding: 10,
+    backgroundColor: "#fff",
+  },
+  input: {
+    height: 40,
+    marginTop: 4,
+    marginBottom: 30,
+    borderBottomWidth: 2,
+    padding: 10,
+    borderColor: "#9F9F9F",
+  },
+  buttonwrap: {
+    height: 40,
+    marginTop: 30,
+    marginBottom: 30,
+  },
+  containerWhite: {
+    backgroundColor: "#fff",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    elevation: 2,
+  },
+  hr: {
+    backgroundColor: "#A2A2A2",
+    height: 1,
+    width: "100%",
+    marginVertical: 10,
+  },
+});
 
 export default function Payment() {
   return (
-    <>
-      <SafeAreaView style={{ paddingTop: StatusBar.currentHeight }}>
-        <View style={{ padding: 15, marginHorizontal: 20 }}>
-          <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-            Payment Methods
+    <View style={commonStyle.bg}>
+      <ScrollView>
+        <Text
+          style={[
+            commonStyle.mt20,
+            commonStyle.black,
+            commonStyle.bold,
+            commonStyle.XL,
+            style.title,
+          ]}
+        >
+          Payment Methods
+        </Text>
+        <Image
+          source={require("../../images/card.png")}
+          style={{
+            width: "100%",
+            marginTop: 20,
+            resizeMode: "contain",
+          }}
+        />
+        <Image
+          source={require("../../images/mark.png")}
+          style={{
+            width: "100%",
+            marginTop: 10,
+            marginBottom: 20,
+            resizeMode: "contain",
+          }}
+        />
+        <View style={[style.hr]} />
+        <View style={[style.contentRow, style.sectionContent]}>
+          <Text style={[commonStyle.black, commonStyle.bold, commonStyle.M]}>
+            1 Hazelnut Latte
           </Text>
-
-          <Image
-            source={require("../../images/paycard.png")}
-            alignSelf={"center"}
+          <Text
+            style={[commonStyle.black, commonStyle.semiBold, commonStyle.M]}
+          >
+            IDR 20.000
+          </Text>
+        </View>
+        <Text style={[commonStyle.black, commonStyle.regular, commonStyle.S]}>
+          Regular
+        </Text>
+        <View style={[style.contentRow, style.sectionContent]}>
+          <Text style={[commonStyle.black, commonStyle.bold, commonStyle.M]}>
+            1 Pinky Promise
+          </Text>
+          <Text
+            style={[commonStyle.black, commonStyle.semiBold, commonStyle.M]}
+          >
+            IDR 25.000
+          </Text>
+        </View>
+        <Text style={[commonStyle.black, commonStyle.regular, commonStyle.S]}>
+          Extra Large
+        </Text>
+        <View style={[style.contentRow, style.sectionContent]}>
+          <Text style={[commonStyle.black, commonStyle.bold, commonStyle.M]}>
+            2 Choco Oreo
+          </Text>
+          <Text
+            style={[commonStyle.black, commonStyle.semiBold, commonStyle.M]}
+          >
+            IDR 30.000
+          </Text>
+        </View>
+        <Text style={[commonStyle.black, commonStyle.regular, commonStyle.S]}>
+          Large
+        </Text>
+        <View style={[style.hr, style.sectionContent]} />
+        <View style={[style.contentRow, style.sectionContent]}>
+          <Text style={[commonStyle.black, commonStyle.bold, commonStyle.M]}>
+            Subtotal
+          </Text>
+          <Text
+            style={[commonStyle.black, commonStyle.semiBold, commonStyle.M]}
+          >
+            IDR 105.000
+          </Text>
+        </View>
+        <View style={[style.contentRow, style.subTitle]}>
+          <Text style={[commonStyle.black, commonStyle.bold, commonStyle.M]}>
+            Tax
+          </Text>
+          <Text
+            style={[commonStyle.black, commonStyle.semiBold, commonStyle.M]}
+          >
+            IDR 12.000
+          </Text>
+        </View>
+        <View
+          style={[style.contentRow, style.sectionContent, commonStyle.mb10per]}
+        >
+          <Text style={[commonStyle.black, commonStyle.bold, commonStyle.L]}>
+            Total
+          </Text>
+          <Text style={[commonStyle.black, commonStyle.bold, commonStyle.L]}>
+            IDR 117.000
+          </Text>
+        </View>
+        <Pressable
+          style={{
+            backgroundColor: "#6A4029",
+            padding: 22,
+            borderRadius: 20,
+            marginBottom: 20,
+          }}
+        >
+          {/* <Text style={{ color: '#F6F6F9' }}>Save Product</Text> */}
+          <Text
+            color="#F6F6F9"
+            align={"center"}
             style={{
-              width: "70%",
-              height: "30%",
-              zIndex: 2,
-              resizeMode: "contain",
-            }}
-          />
-          <View
-            style={{
-              borderBottomColor: "#9F9F9F",
-              borderBottomWidth: StyleSheet.hairlineWidth,
-              marginBottom: 15,
-            }}
-          />
-          <View style={{ marginBottom: 20 }}>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignContent: "center",
-                marginBottom: 15,
-              }}
-            >
-              <View>
-                <View style={{ marginBottom: 15 }}>
-                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                    1 Hazelnut Latte
-                  </Text>
-                </View>
-                <View style={{ marginBottom: 15 }}>
-                  <Text style={{ fontSize: 16 }}>Regular</Text>
-                </View>
-              </View>
-              <View style={{ display: "flex", justifyContent: "center" }}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  IDR 20.000
-                </Text>
-              </View>
-            </View>
-
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignContent: "center",
-                marginBottom: 15,
-              }}
-            >
-              <View>
-                <View style={{ marginBottom: 15 }}>
-                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                    1 Pinky Promise
-                  </Text>
-                </View>
-                <View style={{ marginBottom: 15 }}>
-                  <Text style={{ fontSize: 16 }}>Regular</Text>
-                </View>
-              </View>
-              <View style={{ display: "flex", justifyContent: "center" }}>
-                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  IDR 20.000
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                borderBottomColor: "#9F9F9F",
-                borderBottomWidth: StyleSheet.hairlineWidth,
-              }}
-            />
-          </View>
-          <View style={{ marginBottom: 20 }}>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignContent: "center",
-                marginBottom: 15,
-              }}
-            >
-              <View>
-                <View style={{ marginBottom: 15 }}>
-                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                    Subtotal
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  IDR 20.000
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignContent: "center",
-                marginBottom: 15,
-              }}
-            >
-              <View>
-                <View style={{ marginBottom: 15 }}>
-                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>Tax</Text>
-                </View>
-              </View>
-              <View>
-                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  IDR 20.000
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={{ marginBottom: 20 }}>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignContent: "center",
-                marginBottom: 15,
-              }}
-            >
-              <View>
-                <View style={{ marginBottom: 15 }}>
-                  <Text style={{ fontSize: 23, fontWeight: "bold" }}>
-                    Total
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <Text style={{ fontSize: 23, fontWeight: "bold" }}>
-                  IDR 20.000
-                </Text>
-              </View>
-            </View>
-          </View>
-          <Pressable
-            style={{
-              backgroundColor: "#6A4029",
-              padding: 22,
-              borderRadius: 20,
+              fontSize: 20,
+              fontWeight: "700",
             }}
           >
-            {/* <Text style={{ color: '#F6F6F9' }}>Save Product</Text> */}
-            <Text
-              color="#F6F6F9"
-              align={"center"}
-              style={{
-                fontSize: 20,
-                fontWeight: "700",
-              }}
-            >
-              Pay now
-            </Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
-    </>
+            Pay now
+          </Text>
+        </Pressable>
+      </ScrollView>
+    </View>
   );
 }

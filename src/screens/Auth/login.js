@@ -5,7 +5,7 @@ import { Text } from "../../components/commons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "react-native";
 
-const Login = () => {
+const Login = ({ navigation }) => {
   const [formLogin, setFormLogin] = useState({
     username: "",
     password: "",
@@ -19,6 +19,7 @@ const Login = () => {
       .then((res) => {
         AsyncStorage.setItem("@userData", JSON.stringify(res.data.data));
         ToastAndroid.show("Login Success.", ToastAndroid.SHORT);
+        navigation.navigate("Root");
       })
       .catch((err) => {
         ToastAndroid.show("Login Failed.", ToastAndroid.SHORT);

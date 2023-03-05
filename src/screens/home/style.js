@@ -1,45 +1,32 @@
-import { Dimensions, StyleSheet } from "react-native"
-const style = StyleSheet.create({
-  title: {
-    fontSize: 34,
-    color: "#333",
-    fontWeight: "700",
-    marginTop: "15%",
+import { StyleSheet } from "react-native";
+
+const Style = StyleSheet.create({
+  card: {
+    backgroundColor: "#FFFFFF",
+    width: 220,
+    left: 50,
+    height: 270,
+    borderRadius: 40,
   },
-  productTitle: {
-    fontWeight: "900",
-    fontSize: 22.29,
-    color: "#333",
+  imageProduct: {
+    left: 25,
+    position: "absolute",
+    top: -50,
+    width: 168,
+    height: 189,
+    borderRadius: 50,
+  },
+  productName: {
+    top: 160,
+    fontSize: 22,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   productPrice: {
-    color: "#6A4029",
+    top: 170,
     fontSize: 17,
-    fontWeight: "700",
+    textAlign: "center",
   },
-  sectionTitle: {
-    color: "#6A4029",
-    fontSize: 17,
-    fontWeight: "700",
-    marginBottom: 15
-  },
-  cardWrap: {
-    width: Dimensions.get("window").width / 1.5,
-    // width: '66.66%',
-    // marginLeft: 15,
-    padding: 15,
-    alignItems: "center",
-  },
-  card: {
-    backgroundColor: "#fff",
-    height: 250,
-    elevation: 7,
-    width: "100%",
-    borderRadius: 30,
-    marginTop: 15,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  delIcon:{ backgroundColor: 'red', padding: 5, borderRadius: 100, position: 'absolute', bottom: 25, right: 25 }
 });
 
-export default style;
+export default Style;
